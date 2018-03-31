@@ -24,6 +24,13 @@ const listShow = ( props ) => {
       </li>
     }
   } );
+//   console.log(lists[lists.length-1])
+//   lists[lists.length-1] = <li
+//   key={ Math.random() }
+//   className="pick-afr">
+//   { lists[lists.length-1].value }
+// </li>
+// console.log(lists[lists.length-1])
   return lists;
 };
 export default listShow;
