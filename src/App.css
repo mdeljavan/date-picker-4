@@ -95,3 +95,12 @@ div.DatePicker .pick .pick-arw.pick-arw-s2.pick-arw-l {
 div.DatePicker .pick .pick-arw.pick-arw-s2.pick-arw-r {
   transform: translateX(100%);
 }
+div.DatePicker .pick.pick-y.pick-jump .pick-arw.pick-arw-s2.pick-arw-l,
+div.DatePicker .pick.pick-y.pick-jump .pick-arw.pick-arw-s2.pick-arw-r{
+  transform: translateX(0);
+  transform: scale(.7);
+  z-index: 10;
+}
+div.DatePicker .pick.pick-y.pick-jump li {
+  color: tan;
+ }
