@@ -49,7 +49,7 @@ class YearViews extends Component {
       const typeChange = val > 0 ? 'inc' : 'dec';
       const prevCurrent = [ ...this.state.normalList ].find( val => val.state === 'current' );
       const normalList = this.normalListMaker( current, prevCurrent, typeChange );
-      const jumpedList = this.jumpedListMaker( normalList, current, typeChange,prevCurrent );
+      const jumpedList = this.jumpedListMaker( normalList, current, typeChange, prevCurrent );
       return {
         current,
         normalList,
@@ -62,30 +62,33 @@ class YearViews extends Component {
     if ( event.target.tagName !== 'LI' ) return;
 
     this.setState( prevState => {
-      const jumpedList = this.jumpedListMaker( this.state.normalList, this.state.current );
+      const jumpedList = this.jumpedListMaker( this.state.normalList, this.state.current,'dec' );
       return {
         doubleClicked: !prevState.doubleClicked,
         jumpedList
       };
     } );
   };
-  getViewedYear = ( years, current, prev, next, typeChange,prevCurrent ) => {
+  getViewedYear = ( years, current, prev, next, typeChange, isJumped ) => {
     return this.years.filter( ( val, ind ) => {
       return ind === current || ind === prev || ind === next;
     } ).map( val => {
-      console.log(val,prev,next)
       let state = 'current';
       let key = val.index;
+      console.log(isJumped ,this.state.doubleClicked,isJumped && this.state.doubleClicked)
+      if ( isJumped && this.state.doubleClicked ) {
+        key = Math.random();
+      }
       if ( val.index - 1 === prev ) {
         state = 'bfr';
       } else if ( val.index - 1 === next ) {
-        if ( typeChange === 'dec' && prevCurrent.index !== val.index) {
-          key=Math.random()
-        }
+        // if ( isJumped && typeChange === 'dec' ) {
+        //   key = Math.random();
+        // }
         state = 'next';
 
       };
-      return { ...val, state, key }
+      return { ...val, state, key, isJumped }
     } );
   }
   contanisValueInArray = ( arr, v ) => {
@@ -103,19 +106,22 @@ class YearViews extends Component {
     }
     return _arr;
   }
-  jumpedListMaker = ( normalList, _current, typeChange,prevCurrent ) => {
+  jumpedListMaker = ( normalList, _current, typeChange ) => {
     const { current, prev, next } = this.year( 5, _current );
-    const listView = this.getViewedYear( this.years,null,  prev, next, typeChange,prevCurrent );
+    const listView = this.getViewedYear( this.years, null, prev, next, typeChange, true );
+    console.log(listView)
+    console.log(normalList)
     const stepLists = normalList.concat( listView );
     let sortedListYear = stepLists.filter( val => val.state === 'bfr' );
     sortedListYear = sortedListYear.concat( stepLists.filter( val => val.state === 'current' ) );
     sortedListYear = sortedListYear.concat( stepLists.filter( val => val.state === 'next' ) );
     sortedListYear = this.uniqueItemInarray( [ ...sortedListYear ] );
+
     return sortedListYear;
   }
-  normalListMaker = ( _current, prevCurrent,typeChange ) => {
+  normalListMaker = ( _current, prevCurrent, typeChange,onClickJumped ) => {
     const { current, prev, next } = this.year( 1, _current );
-    let normalListYear = this.getViewedYear( this.years, current, prev, next, typeChange );
+    let normalListYear = this.getViewedYear( this.years, current, prev, next, typeChange, false,onClickJumped );
     if ( prevCurrent ) {
       let isPrevCurrent = normalListYear.find( val => val.index === prevCurrent.index );
       if ( !isPrevCurrent ) {
@@ -132,7 +138,7 @@ class YearViews extends Component {
 
     return normalListYear;
   }
-  componentWillMount () {
+  componentDidMount () {
     const normalList = this.normalListMaker( this.state.current );
     this.setState( {
       normalList
