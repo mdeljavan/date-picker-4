@@ -88,12 +88,13 @@ class MonthViews extends Component {
       return ind === current || ind === prev || ind === next;
     } ).map( val => { 
       let state = 'current';
+      let key = val.index
       if ( val.index - 1 === prev ) {
         state = 'bfr';
       } else if ( val.index - 1 === next ) {
-        state = 'next'
+        state = 'next';
       };
-      return {...val , state}
+      return {...val , state,key}
     });
     return (
       <ul className="pick pick-m">
