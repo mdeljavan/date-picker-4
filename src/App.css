@@ -1,5 +1,5 @@
 *{
-  box-sizing: border-box;
+box-sizing: border-box;
   direction: rtl;
 }
 div.DatePicker {
@@ -18,11 +18,12 @@ div.DatePicker .pick {
   top:100px;
    /* overflow: hidden;  */
 }
-div.DatePicker .pick ul {
+div.DatePicker ul.pick  {
   margin: 0;
   padding: 0;
   list-style: none;
   cursor: pointer;
+  overflow: hidden;
 }
 div.DatePicker .pick  li {
   position: absolute;
