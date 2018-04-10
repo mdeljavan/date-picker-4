@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { checkCurrentPrevNext } from '../../utility/checkCurrentPrevNext';
+import { checkCurrentPrevNext } from '../../utility/utility';
 import ListShow from '../../utility/List/List';
 class MonthViews extends Component {
   constructor ( props ) {
@@ -82,6 +82,12 @@ class MonthViews extends Component {
     }
     );
   };
+  shouldComponentUpdate(){
+    return this.props.current===this.state.current; 
+  }
+  componentDidUpdate(){
+    this.props.changeMonth(this.state.current);
+  }
   render () {
     const { current, prev, next } = this.month();
     const viewedMonth = this.months.filter( ( val, ind ) => {

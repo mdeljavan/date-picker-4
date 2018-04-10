@@ -6,6 +6,7 @@ div.DatePicker {
   width:300px;
   height: 500px;
   margin : auto;
+  top:100px;
 }
 div.DatePicker .pick {
   position: relative;
@@ -15,7 +16,7 @@ div.DatePicker .pick {
   height: 60px;
   line-height: 60px;
   cursor: pointer;
-  top:100px;
+  
    /* overflow: hidden;  */
 }
 div.DatePicker ul.pick  {
@@ -105,3 +106,32 @@ div.DatePicker .pick.pick-y.pick-jump .pick-arw.pick-arw-s2.pick-arw-r{
 div.DatePicker .pick.pick-y.pick-jump li {
   color: tan;
  }
+div.DatePicker div.pick-day ul {
+  display: flex;
+  list-style: none;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+}
+div.DatePicker div.pick-day li {
+  flex: 0 0 14.285714285714285714285714285714%;
+  text-align: center;
+  /* margin-bottom: 10px; */
+  cursor: pointer;
+  width: 100%;
+}
+div.DatePicker div.pick-day ul.pick-d li{
+  height: 40px;
+  line-height: 40px;
+}
+div.DatePicker div.pick-day ul.pick-d li.pick-bfr,
+div.DatePicker div.pick-day ul.pick-d li.pick-afr {
+  opacity: .4;
+  transform: translateY(0);
+}
+div.DatePicker div.pick-day ul.pick-d li.pick-sl.current{
+  background-color: red;
+  border-radius: 50%;
+}

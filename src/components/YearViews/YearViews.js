@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { checkCurrentPrevNext } from '../../utility/checkCurrentPrevNext';
+import {
+  checkCurrentPrevNext,
+  contanisValueInArray,
+  uniqueItemInarray
+} from '../../utility/utility';
 import JalaliDate from './../../lib/JalaliDate';
 import ListShow from '../../utility/List/List';
 class YearViews extends Component {
@@ -10,11 +14,8 @@ class YearViews extends Component {
     this.years = this.initializeYearValues(min, max);
     this.state = {
       current:
-        this.years.find(val => {
-          return val.value === this.props.current;
-        }).index - 1,
+        this.years.find(val => val.value === this.props.current).index - 1,
       doubleClicked: false,
-      typeChange: null,
       onJumpedClicked: false,
       preListYear: null,
       listYear: null
@@ -29,7 +30,7 @@ class YearViews extends Component {
       _min = this.props.current ? this.props.current - 25 : current - 25;
     }
     if (!_max) {
-      _max = _min + 50;
+      _max = this.props.current ? this.props.current + 25 : current + 25;
     }
     return {
       min: _min,
@@ -52,34 +53,32 @@ class YearViews extends Component {
   };
   onChangeHandler = howManyChange => {
     const typeChange = howManyChange > 0 ? 'inc' : 'dec';
-    const current = checkCurrentPrevNext(
-      this.state.current + howManyChange,
-      this.years.length - 1,
-      0
-    ).current;
-    const listYear = this.getListYear(
-      current,
-      typeChange,
-      this.state.doubleClicked
-    );
-    this.setState({
-      typeChange,
-      current,
-      prevCurrent: this.state.current,
-      onJumpedClicked: Math.abs(howManyChange) > 1 ? true : false,
-      preListYear: this.state.listYear,
-      listYear
+
+    this.setState(prevState => {
+      const current = checkCurrentPrevNext(
+        prevState.current + howManyChange,
+        this.years.length - 1,
+        0
+      ).current;
+      const listYear = this.getListYear(
+        current,
+        typeChange,
+        prevState.doubleClicked
+      );
+      return {
+        current,
+        prevCurrent: prevState.current,
+        onJumpedClicked: Math.abs(howManyChange) > 1 ? true : false,
+        preListYear: prevState.listYear,
+        listYear
+      };
     });
   };
   onDoubleClickHandler = event => {
     if (event.target.tagName !== 'LI') return;
     this.setState(prevState => {
       const doubleClicked = !prevState.doubleClicked;
-      const listYear = this.getListYear(
-        this.state.current,
-        null,
-        doubleClicked
-      );
+      const listYear = this.getListYear(prevState.current, null, doubleClicked);
       return {
         doubleClicked,
         listYear
@@ -88,9 +87,7 @@ class YearViews extends Component {
   };
   currentListYear = (years, current, prev, next) => {
     return this.years
-      .filter((val, ind) => {
-        return ind === current || ind === prev || ind === next;
-      })
+      .filter((val, ind) => ind === current || ind === prev || ind === next)
       .map(val => {
         let state = 'current';
         let key = val.index;
@@ -101,21 +98,6 @@ class YearViews extends Component {
         }
         return { ...val, state, key };
       });
-  };
-  contanisValueInArray = (arr, v) => {
-    for (let i = 0; i < arr.length; i++) {
-      if (arr[i].index === v.index) return true;
-    }
-    return false;
-  };
-  uniqueItemInarray = arr => {
-    let _arr = [];
-    for (let i = 0; i < arr.length; i++) {
-      if (!this.contanisValueInArray(_arr, arr[i])) {
-        _arr.push(arr[i]);
-      }
-    }
-    return _arr;
   };
   jumpedListMaker = _current => {
     const { current, prev, next } = this.year(this.jumpedStep, _current);
@@ -132,52 +114,13 @@ class YearViews extends Component {
     let normalListYear = this.currentListYear(this.years, current, prev, next);
     return normalListYear;
   };
-  componentDidMount() {
+  componentWillMount() {
     const listYear = this.getListYear(this.state.current);
+    console.log('didMount');
     this.setState({
       listYear
     });
   }
-  // prevYearList = _current => {
-  //   const current = this.state.onJumpedClicked ? _current - 5 : _current - 1;
-  //   const normalList = this.normalListMaker(current);
-  //   const jumpedList = this.jumpedListMaker(current);
-  //   return this.state.doubleClicked
-  //     ? this.mergeNormalAndJumpedList(normalList, jumpedList)
-  //     : normalList;
-  // };
-  // nextYearList = _current => {
-  //   const current = this.state.onJumpedClicked ? _current + 5 : _current + 1;
-  //   const normalList = this.normalListMaker(current);
-  //   const jumpedList = this.jumpedListMaker(current);
-  //   return this.state.doubleClicked
-  //     ? this.mergeNormalAndJumpedList(normalList, jumpedList)
-  //     : normalList;
-  // };
-  // nextListCome = () => {
-  //   let nextList = null;
-  //   const current = this.state.current;
-  //   if (this.state.typeChange === 'dec') {
-  //     nextList = this.prevYearList(current);
-  //   } else if (this.state.typeChange === 'inc') {
-  //     nextList = this.nextYearList(current);
-  //   } else {
-  //     nextList = this.prevYearList(current);
-  //   }
-  //   return nextList;
-  // };
-  // prevListWent = () => {
-  //   let prevList = null;
-  //   const current = this.state.current;
-  //   if (this.state.typeChange === 'dec') {
-  //     prevList = this.nextYearList(current);
-  //   } else if (this.state.typeChange === 'inc') {
-  //     prevList = this.prevYearList(current);
-  //   } else {
-  //     prevList = this.prevYearList(current);
-  //   }
-  //   return prevList;
-  // };
   mergeNormalAndJumpedList = (normalList, jumpedList) => {
     const mergedList = [...normalList];
     let sortedListYear = mergedList.filter(val => val.state === 'bfr');
@@ -194,35 +137,32 @@ class YearViews extends Component {
         sortedListYear.push(val);
       }
     });
-    const sortedMergList = this.uniqueItemInarray([...sortedListYear]);
+    const sortedMergList = uniqueItemInarray([...sortedListYear]);
     return sortedMergList;
   };
   currentList = (current, doubleClicked) => {
     const normalList = this.normalListMaker(current);
     const jumpedList = this.jumpedListMaker(current);
-    console.log(doubleClicked)
     return doubleClicked
       ? this.mergeNormalAndJumpedList(normalList, jumpedList)
       : normalList;
   };
   getListYear = (current, typeChange, doubleClicked) => {
-    console.log(doubleClicked)
     let currentList = this.currentList(current, doubleClicked);
-    console.log(currentList)
     let listModified = [...currentList];
     const prevListYear = this.state.listYear ? [...this.state.listYear] : null;
     const prevCurrent = prevListYear
       ? prevListYear.find(val => val.state === 'current')
       : null;
     if (typeChange === 'dec') {
-      if (!this.contanisValueInArray(currentList, prevCurrent)) {
+      if (!contanisValueInArray(currentList, prevCurrent)) {
         listModified.push({
           ...prevCurrent,
           state: 'next'
         });
       }
     } else if (typeChange === 'inc') {
-      if (!this.contanisValueInArray(currentList, prevCurrent)) {
+      if (contanisValueInArray(currentList, prevCurrent)) {
         listModified.splice(0, 0, {
           ...prevCurrent,
           state: 'bfr'
@@ -231,9 +171,19 @@ class YearViews extends Component {
     }
     return listModified;
   };
+  shouldComponentUpdate() {
+    console.log('shouldUpdate');
+    return this.props.current === this.years[this.state.current + 1]['value'];
+  }
+  componentDidUpdate() {
+    console.log('didUpdate');
+    this.props.changeYear(this.years[this.state.current]['value']);
+  }
   render() {
     let listShow = null;
+    console.log('render');
     if (this.state.listYear) {
+      console.log(this.state.listYear);
       listShow = <ListShow list={this.state.listYear} />;
     }
     return (

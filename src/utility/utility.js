@@ -13,3 +13,18 @@ export const checkCurrentPrevNext = ( curr, max, min, howManyChange = 1 ) => {
     next
   };
 };
+export const contanisValueInArray = (arr, v) => {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].index === v.index) return true;
+  }
+  return false;
+};
+export const uniqueItemInarray = arr => {
+  let _arr = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (!contanisValueInArray(_arr, arr[i])) {
+      _arr.push(arr[i]);
+    }
+  }
+  return _arr;
+};

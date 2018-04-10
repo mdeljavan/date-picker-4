@@ -1,7 +1,5 @@
 import { gregorian_to_jalali, jalali_to_gregorian } from './changeDate';
 class JalaliDate {
-    datej;
-    dateg;
     constructor ( year = null, month = null, day = null ) {
         if ( year && month && day ) {
             const _dateg = jalali_to_gregorian( year, month - 1, day );
@@ -23,7 +21,10 @@ class JalaliDate {
         return this.datej[ 2 ];
     };
     getDay () {
-        return this.dateg.getDay();
+        let day = this.dateg.getDay();
+        day++;
+        if (day>6) day = 0;
+        return day;
     };
     static isLeap ( year = null ) {
         const r =  year % 33 ;

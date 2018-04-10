@@ -1,7 +1,6 @@
 import React from "react";
 const listShow = props => {
   const list = props.list;
-  console.log("list", list);
   const lists = list.map((val, ind) => {
     if (val.state === "bfr") {
       return (
@@ -11,7 +10,7 @@ const listShow = props => {
       );
     } else if (val.state === "current") {
       return (
-        <li key={val.key} className="pick-sl">
+        <li key={val.key} className={'pick-sl ' + val.class}>
           {val.value}
         </li>
       );
