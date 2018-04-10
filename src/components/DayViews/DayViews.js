@@ -67,7 +67,7 @@ class DayViews extends Component {
         state: 'current',
         value: i,
         key: 'current' + i,
-        class: i === this.currentDate ? 'current' : ''
+        class: i === this.currentDate ? ' current' : ''
       });
     }
     const numberOfdayInList = listDay.length;
@@ -83,7 +83,6 @@ class DayViews extends Component {
   }
   render() {
     this.initializeComponent();
-    console.log(this.currentDay)
     const dayNames = this.dayNameMaker();
     return (
       <div className="pick-day">

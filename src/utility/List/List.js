@@ -10,7 +10,7 @@ const listShow = props => {
       );
     } else if (val.state === "current") {
       return (
-        <li key={val.key} className={'pick-sl ' + val.class}>
+        <li key={val.key} className={'pick-sl' + (val.class? val.class:'')}>
           {val.value}
         </li>
       );

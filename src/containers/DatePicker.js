@@ -8,9 +8,14 @@ class DatePicker extends Component {
     super(props);
     const jalaliDate = new JalaliDay();
     this.state = {
+      year: {
+        doubleClicked:false,
+        current:jalaliDate.getFullYear(),
+        typeChange:null,
+        listYear:null
+      },
       currentDay: jalaliDate.getDay(),
       currentMonth: jalaliDate.getMonth(),
-      currentYear: jalaliDate.getFullYear(),
       currentDate: jalaliDate.getDate()
     };
   }
@@ -19,10 +24,13 @@ class DatePicker extends Component {
       currentMonth
     });
   }
-  onChangeCurrentYear(currentYear) {
-    console.log('changeYear', currentYear)
+  onChangeYearList=(obj)=> {
+    const newYearState = {
+      ...this.state.year,
+      ...obj
+    };
     this.setState({
-      currentYear
+      year: newYearState
     });
   }
   onChangeCurrentDay(currentDay, currentDate) {
@@ -34,20 +42,23 @@ class DatePicker extends Component {
   render() {
     return (
       <div className="DatePicker">
-        <MonthViews
+        {/* <MonthViews
           current={this.state.currentMonth}
           changeMonth={current => this.onChangeCurrentMonth(current)}
-        />
+        /> */}
         <DayViews
           currentMonth={this.state.currentMonth}
           currentDay={this.state.currentDay}
           currentDate={this.state.currentDate}
-          currentYear={this.state.currentYear}
+          currentYear={this.state.year.current}
           showLargeDate
         />
         <YearViews
-          current={this.state.currentYear}
-          changeYear={current => this.onChangeCurrentYear(current)}
+          current={this.state.year.current}
+          doubleClicked={this.state.year.doubleClicked}
+          typeChange={this.state.year.typeChange}
+          listYear = {this.state.year.listYear}
+          onChangeHandler={(obj)=> this.onChangeYearList(obj)}
         />
       </div>
     );
