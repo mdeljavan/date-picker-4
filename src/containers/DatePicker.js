@@ -42,10 +42,10 @@ class DatePicker extends Component {
   render() {
     return (
       <div className="DatePicker">
-        {/* <MonthViews
+        <MonthViews
           current={this.state.currentMonth}
           changeMonth={current => this.onChangeCurrentMonth(current)}
-        /> */}
+        />
         <DayViews
           currentMonth={this.state.currentMonth}
           currentDay={this.state.currentDay}
