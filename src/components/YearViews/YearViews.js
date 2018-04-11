@@ -18,10 +18,10 @@ const yearViews = props => {
       _current = new JalaliDate().getFullYear();
 
     if (!_min) {
-      _min = current ? current - 25 : _current - 25;
+      _min = current ? current - diffMaxMin : _current - diffMaxMin;
     }
     if (!_max) {
-      _max = current ? current + 25 : _current + 25;
+      _max = current ? current + diffMaxMin : _current + diffMaxMin;
     }
     return {
       min: _min,
@@ -92,8 +92,9 @@ const yearViews = props => {
       ? mergeNormalAndJumpedList(normalList, jumpedList)
       : normalList;
   };
-  const {min, max} = setMinAndMaxYear(props.min, props.max);
-  const prevListYear= props.listYear;
+  const diffMaxMin = 40;
+  const { min, max } = setMinAndMaxYear(props.min, props.max);
+  const prevListYear = props.listYear;
   const years = initializeYearValues(min, max);
   const current = getIndexCurrentYear(props.current);
   const getListYear = (current, typeChange, doubleClicked) => {
@@ -120,7 +121,7 @@ const yearViews = props => {
     return listModified;
   };
   const listYear = getListYear(current, props.typeChange, props.doubleClicked);
-  
+
   const onChangeHandler = howManyChange => {
     const typeChange = howManyChange > 0 ? 'inc' : 'dec';
     const _current = checkCurrentPrevNext(
@@ -129,7 +130,7 @@ const yearViews = props => {
       0
     ).current;
     props.onChangeHandler({
-      current:years[_current].value,
+      current: years[_current].value,
       onJumpedClicked: Math.abs(howManyChange) > 1 ? true : false,
       typeChange,
       listYear
@@ -139,7 +140,7 @@ const yearViews = props => {
     if (event.target.tagName !== 'LI') return;
     const doubleClicked = !props.doubleClicked;
     const listYear = getListYear(current, null, doubleClicked);
-    props.onChangeHandler({ doubleClicked, typeChange: null,listYear });
+    props.onChangeHandler({ doubleClicked, typeChange: null, listYear });
   };
   let listShow = null;
   if (listYear) {

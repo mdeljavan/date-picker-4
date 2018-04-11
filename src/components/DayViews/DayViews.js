@@ -44,7 +44,7 @@ class DayViews extends Component {
   getCurrentDay() {
     return new JalaliDate(
       this.currentYear,
-      this.currentMonth+2,
+      this.currentMonth+1,
       this.currentDate
     ).getDay();
   }
@@ -55,7 +55,7 @@ class DayViews extends Component {
     const dayInCurrentMonth = this.daysInMonth(this.currentMonth);
     const dayInNextMonth = this.daysInMonth(this.currentMonth + 1);
     const listDay = [];
-    for (let i = dayInLastMonth - currentDay; i <= dayInLastMonth; i++) {
+    for (let i = dayInLastMonth - currentDay; i < dayInLastMonth; i++) {
       listDay.push({
         state: 'bfr',
         key: 'bfr' + i,
