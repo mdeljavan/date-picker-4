@@ -1,154 +1,166 @@
-*{
-box-sizing: border-box;
-  direction: rtl;
+* {
+	box-sizing: border-box;
+	direction: rtl;
 }
 div.DatePicker {
-  width:300px;
-  height: 500px;
-  margin : auto;
-  top:100px;
+	width: 300px;
+	height: 500px;
+	margin: auto;
+	top: 100px;
 }
 div.DatePicker .pick {
-  position: relative;
-  background-color: white;
-  color: black;
-  font-size: 32px;
-  height: 60px;
-  line-height: 60px;
-  cursor: pointer;
-  
-   /* overflow: hidden;  */
+	position: relative;
+	background-color: white;
+	color: black;
+	font-size: 32px;
+	height: 60px;
+	line-height: 60px;
+	cursor: pointer;
+
+	/* overflow: hidden;  */
 }
-div.DatePicker ul.pick  {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  cursor: pointer;
-  overflow: hidden;
+div.DatePicker ul.pick {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	cursor: pointer;
+	overflow: hidden;
 }
-div.DatePicker .pick  li {
-  position: absolute;
-  top:0;
-  width: 100%;
-  left: 0;
-  height: 100%;
-  text-align: center;
-  display: block;
-  opacity: .3;
-  transition: all .2s ease-in-out;
-  user-select: none;
+div.DatePicker .pick li {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	left: 0;
+	height: 100%;
+	text-align: center;
+	display: block;
+	opacity: .3;
+	transition: all .2s ease-in-out;
+	user-select: none;
 }
 div.DatePicker .pick.pick-m {
-  background-color: tomato;
+	background-color: tomato;
 }
 div.DatePicker li.pick-sl {
-  transform: translateY(0);
-  opacity: 1;
-  z-index: 1;
+	transform: translateY(0);
+	opacity: 1;
+	z-index: 1;
 }
 div.DatePicker li.pick-bfr {
-  transform: translateY(-100%);
-  opacity: .3;
+	transform: translateY(-100%);
+	opacity: .3;
 }
 div.DatePicker li.pick-afr {
-  transform: translateY(100%);
-  opacity: .3;
+	transform: translateY(100%);
+	opacity: .3;
 }
 div.DatePicker .pick-arw {
-  position: absolute;
-  width: 25%;
-  top: 0;
-  display: block;
-  text-align: center;
-  margin:0;
-  transform: scale(0);
-  transition: all .2s;
-  height: 100%;
-  cursor: pointer;
-  z-index: 10;
-  user-select: none;
+	position: absolute;
+	width: 25%;
+	top: 0;
+	display: block;
+	text-align: center;
+	margin: 0;
+	transform: scale(0);
+	transition: all .2s;
+	height: 100%;
+	cursor: pointer;
+	z-index: 10;
+	user-select: none;
 }
 div.DatePicker .pick .pick-arw.pick-arw-s1.pick-arw-l,
 div.DatePicker .pick .pick-arw.pick-arw-s2.pick-arw-l {
-  left: 0;
+	left: 0;
 }
 div.DatePicker .pick .pick-arw.pick-arw-s1.pick-arw-r,
 div.DatePicker .pick .pick-arw.pick-arw-s2.pick-arw-r {
-  right: 0;
+	right: 0;
 }
-div.DatePicker .pick:hover .pick-arw{
-  opacity: 0.4;
-  transform: scale(.7)
+div.DatePicker .pick:hover .pick-arw {
+	opacity: 0.4;
+	transform: scale(.7);
 }
-div.DatePicker  .pick .pick-arw.pick-arw-s1.pick-arw-r:hover,
-div.DatePicker   .pick .pick-arw.pick-arw-s1.pick-arw-l:hover{
-  opacity: 1;
-  transform: scale(.9)
+div.DatePicker .pick .pick-arw.pick-arw-s1.pick-arw-r:hover,
+div.DatePicker .pick .pick-arw.pick-arw-s1.pick-arw-l:hover {
+	opacity: 1;
+	transform: scale(.9);
 }
 div.DatePicker .pick.pick-y.pick-jump:hover .pick-arw.pick-arw-s1.pick-arw-l {
-  left: 16px;
+	left: 16px;
 }
 div.DatePicker .pick.pick-y.pick-jump:hover .pick-arw.pick-arw-s1.pick-arw-r {
-  right: 16px;
+	right: 16px;
 }
 div.DatePicker .pick .pick-arw.pick-arw-s2.pick-arw-l {
-  transform: translateX(-100%);
+	transform: translateX(-100%);
 }
 div.DatePicker .pick .pick-arw.pick-arw-s2.pick-arw-r {
-  transform: translateX(100%);
+	transform: translateX(100%);
 }
 div.DatePicker .pick.pick-y.pick-jump .pick-arw.pick-arw-s2.pick-arw-l,
-div.DatePicker .pick.pick-y.pick-jump .pick-arw.pick-arw-s2.pick-arw-r{
-  transform: translateX(0);
-  transform: scale(.7);
-  z-index: 10;
+div.DatePicker .pick.pick-y.pick-jump .pick-arw.pick-arw-s2.pick-arw-r {
+	transform: translateX(0);
+	transform: scale(.7);
+	z-index: 10;
 }
 div.DatePicker .pick.pick-y.pick-jump li {
-  color: tan;
- }
+	color: tan;
+}
 div.DatePicker div.pick-day ul {
-  display: flex;
-  list-style: none;
-  flex-wrap: wrap;
-  margin: 0;
-  padding: 10px;
-  text-align: center;
-  width: 100%;
+	display: flex;
+	list-style: none;
+	flex-wrap: wrap;
+	margin: 0;
+	padding: 10px;
+	text-align: center;
+	width: 100%;
 }
 div.DatePicker div.pick-day li {
-  flex: 0 0 14.285714285714285714285714285714%;
-  text-align: center;
-  /* margin-bottom: 10px; */
-  cursor: pointer;
-  width: 100%;
+	flex: 0 0 14.285714285714285714285714285714%;
+	text-align: center;
+	margin-bottom: 4px;
+	cursor: pointer;
+	width: 100%;
 }
-div.DatePicker div.pick-day ul.pick-d li{
-  height: 40px;
-  line-height: 40px;
+div.DatePicker div.pick-day ul.pick-d li {
+	height: 40px;
+	line-height: 40px;
+	user-select: none;
+	transition: all .2s ease-in-out;
 }
-div.DatePicker div.pick-day ul.pick-d li::before{
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  transform: scale(0);
-  background-color: black;
-  transition: all .2s ease-in-out;
+/* div.DatePicker div.pick-day ul.pick-d li.pick-sl::after{
+	content: '';
+	position: absolute;
+	top:0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: red;
+	border-radius: 50%;
+} */
+div.DatePicker div.pick-day ul.pick-d li::before {
+	content: '';
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	transform: scale(0);
+	background-color: black;
+	transition: all .3s ease-in-out;
 }
-div.DatePicker div.pick-day ul.pick-d li:hover::before{
-  transform: scale(1);
+div.DatePicker div.pick-day ul.pick-d li:hover::before {
+	transform: scale(1);
 }
-div.DatePicker div.pick-day ul.pick-d li.current:hover::before{
-  transform: scale(0);
+div.DatePicker div.pick-day ul.pick-d li.current:hover::before {
+	transform: scale(0);
 }
 div.DatePicker div.pick-day ul.pick-d li.pick-bfr,
 div.DatePicker div.pick-day ul.pick-d li.pick-afr {
-  opacity: .4;
-  transform: translateY(0);
+	opacity: .4;
+	transform: translateY(0);
 }
-div.DatePicker div.pick-day ul.pick-d li.pick-sl.current{
-  background-color: red;
-  border-radius: 50%;
+div.DatePicker div.pick-day ul.pick-d li.pick-sl.current {
+	background-color: red;
+	border-radius: 50%;
 }
