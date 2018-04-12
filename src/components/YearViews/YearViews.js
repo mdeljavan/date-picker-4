@@ -4,25 +4,8 @@ import JalaliDate from './../../lib/JalaliDate';
 import ListShow from '../../utility/List/List';
 const yearViews = (props) => {
 	const jumpedStep = 10;
-	// const { min, max } = setMinAndMaxYear(props.min, props.max);
 	const year = (step, current) => {
 		return checkCurrentPrevNext(current, years.length - 1, 0, step);
-	};
-	const setMinAndMaxYear = (min, max) => {
-		let _max = max,
-			_min = min,
-			_current = new JalaliDate().getFullYear();
-
-		if (!_min) {
-			_min = current ? current - diffMaxMin : _current - diffMaxMin;
-		}
-		if (!_max) {
-			_max = current ? current + diffMaxMin : _current + diffMaxMin;
-		}
-		return {
-			min: _min,
-			max: _max
-		};
 	};
 	const initializeYearValues = (min, max) => {
 		const years = [];
@@ -79,11 +62,9 @@ const yearViews = (props) => {
 		const normalList = normalListMaker(current);
 		const jumpedList = jumpedListMaker(current);
 		return doubleClicked ? mergeNormalAndJumpedList(normalList, jumpedList) : normalList;
-	};
-	const diffMaxMin = 40;
-	const { min, max } = setMinAndMaxYear(props.min, props.max);
+	};	
 	const prevListYear = props.listYear;
-	const years = initializeYearValues(min, max);
+	const years = initializeYearValues(props.min, props.max);
 	const current = getIndexCurrentYear(props.current);
 	const getListYear = (current, typeChange, doubleClicked) => {
 		let _currentList = currentList(current, doubleClicked);

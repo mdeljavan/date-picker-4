@@ -2,17 +2,21 @@ import React, { Component } from 'react';
 import MonthViews from '../components/MonthViews/MonthViews';
 import YearViews from '../components/YearViews/YearViews';
 import DayViews from '../components/DayViews/DayViews';
-import JalaliDay from './../lib/JalaliDate';
+import JalaliDate from './../lib/JalaliDate';
 class DatePicker extends Component {
 	constructor(props) {
 		super(props);
-		const jalaliDate = new JalaliDay();
+		const jalaliDate = new JalaliDate();
+		const current= jalaliDate.getFullYear();
+		const { min, max } = this.setMinAndMaxYear(this.props.minYear, this.props.maxYear,current);
 		this.state = {
 			year: {
 				doubleClicked: false,
-				current: jalaliDate.getFullYear(),
 				typeChange: null,
-				listYear: null
+				listYear: null,
+				current,
+				min,
+				max
 			},
 			currentDay: jalaliDate.getDay(),
 			currentMonth: jalaliDate.getMonth(),
@@ -37,12 +41,27 @@ class DatePicker extends Component {
 		const newStateYear = {
 			...this.state.year,
 			current: currentYear
-    };
+		};
 		this.setState({
 			year: newStateYear,
 			currentDate,
 			currentMonth
 		});
+	};
+	setMinAndMaxYear = (min, max,current) => {
+		const diffMaxMin = 40;
+		let _max = max,
+			_min = min;
+		if (!_min) {
+			_min = current - diffMaxMin;
+		}
+		if (!_max) {
+			_max = current + diffMaxMin;
+		}
+		return {
+			min: _min,
+			max: _max
+		};
 	};
 	render() {
 		return (
@@ -57,6 +76,8 @@ class DatePicker extends Component {
 					currentDate={this.state.currentDate}
 					currentYear={this.state.year.current}
 					showLargeDate
+					minYear={this.state.year.min}
+					maxYear={this.state.year.max}
 					onChangeDay={this.onChangeDay}
 				/>
 				<YearViews
@@ -64,6 +85,8 @@ class DatePicker extends Component {
 					doubleClicked={this.state.year.doubleClicked}
 					typeChange={this.state.year.typeChange}
 					listYear={this.state.year.listYear}
+					min ={this.state.year.min}
+					max={this.state.year.max}
 					onChangeHandler={(obj) => this.onChangeYearList(obj)}
 				/>
 			</div>

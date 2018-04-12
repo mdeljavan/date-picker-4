@@ -42,6 +42,9 @@ const DayViews = (props) => {
 		} else {
 			_currentMonth--;
 		}
+		if (_currentYear<props.minYear){
+			_currentYear = props.maxYear;
+		}
 		props.onChangeDay(_currentYear, _currentMonth, selectedDate);
 	};
 	const onClickAfrHandler = (selectedDate) => {
@@ -52,6 +55,9 @@ const DayViews = (props) => {
 			_currentMonth = 0;
 		} else {
 			_currentMonth++;
+		}
+		if (_currentYear>props.maxYear){
+			_currentYear = props.minYear;
 		}
 		props.onChangeDay(_currentYear, _currentMonth, selectedDate);
 	};
