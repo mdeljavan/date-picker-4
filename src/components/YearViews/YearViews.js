@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { checkCurrentPrevNext, contanisValueInArray, uniqueItemInarray } from '../../utility/utility';
+import { checkCurrentPrevNext, contanisValueInArray, uniqueItemInarray, listMaker } from '../../utility/utility';
 import JalaliDate from './../../lib/JalaliDate';
 import ListShow from '../../utility/List/List';
 const yearViews = (props) => {
@@ -21,26 +21,26 @@ const yearViews = (props) => {
 	const getIndexCurrentYear = (year) => {
 		return years.find((val) => val.value === year).index - 1;
 	};
-	const currentListYear = (years, current, prev, next) => {
-		return years.filter((val, ind) => ind === current || ind === prev || ind === next).map((val) => {
-			let state = 'current';
-			let key = val.index;
-			if (val.index - 1 === prev) {
-				state = 'bfr';
-			} else if (val.index - 1 === next) {
-				state = 'next';
-			}
-			return { ...val, state, key };
-		});
-	};
+	// const currentListYear = (years, current, prev, next) => {
+	// 	return years.filter((val, ind) => ind === current || ind === prev || ind === next).map((val) => {
+	// 		let state = 'current';
+	// 		let key = val.index;
+	// 		if (val.index - 1 === prev) {
+	// 			state = 'bfr';
+	// 		} else if (val.index - 1 === next) {
+	// 			state = 'next';
+	// 		}
+	// 		return { ...val, state, key };
+	// 	});
+	// };
 	const jumpedListMaker = (_current) => {
 		const { current, prev, next } = year(jumpedStep, _current);
-		const jumpedListYear = currentListYear(years, current, prev, next);
+		const jumpedListYear = listMaker(years, current, prev, next);
 		return jumpedListYear;
 	};
 	const normalListMaker = (_current) => {
 		const { current, prev, next } = year(1, _current);
-		let normalListYear = currentListYear(years, current, prev, next);
+		let normalListYear = listMaker(years, current, prev, next);
 		return normalListYear;
 	};
 	const mergeNormalAndJumpedList = (normalList, jumpedList) => {
@@ -74,21 +74,22 @@ const yearViews = (props) => {
 			if (!contanisValueInArray(_currentList, prevCurrent)) {
 				listModified.push({
 					...prevCurrent,
-					state: 'next'
+          state: 'next',
+          class:['pick-afr']
 				});
 			}
 		} else if (typeChange === 'inc') {
 			if (!contanisValueInArray(_currentList, prevCurrent)) {
 				listModified.splice(0, 0, {
 					...prevCurrent,
-					state: 'bfr'
+          state: 'bfr',
+          class:['pick-bfr']
 				});
 			}
 		}
 		return listModified;
 	};
 	const listYear = getListYear(current, props.typeChange, props.doubleClicked);
-
 	const onChangeHandler = (howManyChange) => {
 		const typeChange = howManyChange > 0 ? 'inc' : 'dec';
 		const _current = checkCurrentPrevNext(current + howManyChange, years.length - 1, 0).current;

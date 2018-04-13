@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import JalaliDate from './../../lib/JalaliDate';
 import ListShow from '../../utility/List/List';
+import { checkCurrentPrevNext } from '../../utility/utility';
 const DayViews = (props) => {
 	const getCurrentFirstDayMonth = () => {
 		return new JalaliDate(currentYear, currentMonth + 1, 1).getDay();
+	};
+	const getDay = (year,month,day) => {
+		return new JalaliDate(year, month + 1, day).getDay();
 	};
 	const daysInMonth = (month) => {
 		if (month < 0) {
@@ -23,10 +27,11 @@ const DayViews = (props) => {
 	const currentMonth = props.currentMonth;
 	const currentDate = props.currentDate;
 	const currentDay = currentYear ? getCurrentFirstDayMonth() : props.currentDay;
-
+	const prevMonth = checkCurrentPrevNext(currentMonth,11,0).prev;
+	const nextMonth = checkCurrentPrevNext(currentMonth,11,0).next;
 	const dayNameMaker = () => {
-		const shortName = [ 'ش', 'یک', 'دو', 'سه', 'چهار', 'پنج', 'جمعه' ];
-		const fullName = [ 'شنبه', 'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه' ];
+		const shortName = ['ش', 'یک', 'دو', 'سه', 'چهار', 'پنج', 'جمعه'];
+		const fullName = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'];
 		if (props.showLargeDate) {
 			return shortName;
 		} else {
@@ -42,7 +47,7 @@ const DayViews = (props) => {
 		} else {
 			_currentMonth--;
 		}
-		if (_currentYear<props.minYear){
+		if (_currentYear < props.minYear) {
 			_currentYear = props.maxYear;
 		}
 		props.onChangeDay(_currentYear, _currentMonth, selectedDate);
@@ -62,10 +67,7 @@ const DayViews = (props) => {
 		props.onChangeDay(_currentYear, _currentMonth, selectedDate);
 	};
 	const onClickCurrentHandler = (selectedDate) => {
-		let _currentYear = currentYear;
-		let _currentMonth = currentMonth;
-		
-		props.onChangeDay(_currentYear, _currentMonth, selectedDate);
+		props.onChangeDay(currentYear,currentMonth, selectedDate);
 	};
 	const makerDayList = () => {
 		const dayInLastMonth = daysInMonth(currentMonth - 1);
@@ -73,29 +75,46 @@ const DayViews = (props) => {
 		const dayInNextMonth = daysInMonth(currentMonth + 1);
 		const listDay = [];
 		for (let i = dayInLastMonth - currentDay; i < dayInLastMonth; i++) {
+			const _class =['pick-bfr'];
+			if (getDay(currentYear,prevMonth,i)===6) {
+				_class.push('jome')
+			}
 			listDay.push({
 				state: 'bfr',
 				key: 'bfr' + i,
 				value: i,
+				class:_class,
 				onClick: () => onClickBfrHandler(i)
 			});
 		}
 		for (let i = 1; i <= dayInCurrentMonth; i++) {
+			const _class = ['pick-sl'];
+			if (i === currentDate) {
+				_class.push('current');
+			}
+			if (getDay(currentYear,currentMonth,i)===6) {
+				_class.push('jome')
+			}
 			listDay.push({
 				state: 'current',
 				value: i,
 				key: 'current' + i,
-				class: i === currentDate ? ' current' : '',
+				class: _class,
 				onClick: () => onClickCurrentHandler(i)
 			});
 		}
 		const numberOfdayInList = listDay.length;
 		for (let i = numberOfdayInList, counter = 0; i < 42; i++) {
 			++counter;
+			const _class =['pick-afr'];
+			if (getDay(currentYear,nextMonth,counter)===6) {
+				_class.push('jome')
+			}
 			listDay.push({
 				state: 'next',
 				key: 'afr' + counter,
 				value: counter,
+				class:_class,
 				onClick: () => onClickAfrHandler(counter)
 			});
 		}

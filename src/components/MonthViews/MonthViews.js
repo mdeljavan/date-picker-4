@@ -1,5 +1,5 @@
 import React from 'react';
-import { checkCurrentPrevNext } from '../../utility/utility';
+import { checkCurrentPrevNext,listMaker } from '../../utility/utility';
 import ListShow from '../../utility/List/List';
 const monthViews = (props) => {
   const months = [
@@ -67,20 +67,9 @@ const monthViews = (props) => {
   const { current, prev, next } = checkCurrentPrevNext(props.current, months.length - 1, 0);
   const onChangeHandler = (val) => {
     const _current = checkCurrentPrevNext(current - val, months.length - 1, 0).current;
-    props.changeMonth(_current);    
+    props.changeMonth(_current);
   };
-  const viewedMonth = months.filter((val, ind) => {
-    return ind === current || ind === prev || ind === next;
-  }).map(val => {
-    let state = 'current';
-    let key = val.index
-    if (val.index - 1 === prev) {
-      state = 'bfr';
-    } else if (val.index - 1 === next) {
-      state = 'next';
-    };
-    return { ...val, state, key }
-  });
+  const viewedMonth = listMaker(months,current,prev,next);
   return (
     <ul className="pick pick-m">
       <ListShow list={viewedMonth} />

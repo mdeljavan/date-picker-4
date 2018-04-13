@@ -28,3 +28,21 @@ export const uniqueItemInarray = arr => {
   }
   return _arr;
 };
+export const listMaker = (lists, current, prev, next) => {
+  return lists.filter((val, ind) => {
+    return ind === current || ind === prev || ind === next;
+  }).map(val => {
+    let state = 'current';
+    let key = val.index;
+    let _class = ['pick-sl'];
+    if (val.index - 1 === prev) {
+      state = 'bfr';
+       _class.splice(0, 1, 'pick-bfr');
+      console.log(_class)
+    } else if (val.index - 1 === next) {
+      state = 'next';
+       _class.splice(0, 1, 'pick-afr');
+    };
+    return { ...val, state, key, class: _class }
+  });
+};
