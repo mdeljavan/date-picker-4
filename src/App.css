@@ -1,12 +1,26 @@
 * {
 	box-sizing: border-box;
-	direction: rtl;
+  direction: rtl;
+  font-family: "nazanin"
 }
 div.DatePicker {
 	width: 300px;
-	height: 500px;
 	margin: auto;
-	top: 100px;
+  top: 100px;
+  border-radius: 10px;
+  box-shadow: 0 0 32px 0 rgba(0,0,0,.1);
+  position: relative;
+  /* overflow: hidden; */
+}
+div.DatePicker::before{
+  content: '';
+  position: absolute;
+  top:-10px;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  transform:translateX(-50%) rotate(45deg);
+  border-top-left-radius: 5px;
 }
 div.DatePicker .pick {
 	position: relative;
@@ -16,8 +30,7 @@ div.DatePicker .pick {
 	height: 60px;
 	line-height: 60px;
 	cursor: pointer;
-
-	/* overflow: hidden;  */
+	overflow: hidden; 
 }
 div.DatePicker ul.pick {
 	margin: 0;
@@ -38,9 +51,7 @@ div.DatePicker .pick li {
 	transition: all .2s ease-in-out;
 	user-select: none;
 }
-div.DatePicker .pick.pick-m {
-	background-color: tomato;
-}
+
 div.DatePicker li.pick-sl {
 	transform: translateY(0);
 	opacity: 1;
@@ -81,7 +92,8 @@ div.DatePicker .pick:hover .pick-arw {
 	transform: scale(.7);
 }
 div.DatePicker .pick .pick-arw.pick-arw-s1.pick-arw-r:hover,
-div.DatePicker .pick .pick-arw.pick-arw-s1.pick-arw-l:hover {
+div.DatePicker .pick .pick-arw.pick-arw-s1.pick-arw-l:hover
+{
 	opacity: 1;
 	transform: scale(.9);
 }
@@ -103,9 +115,6 @@ div.DatePicker .pick.pick-y.pick-jump .pick-arw.pick-arw-s2.pick-arw-r {
 	transform: scale(.7);
 	z-index: 10;
 }
-div.DatePicker .pick.pick-y.pick-jump li {
-	color: tan;
-}
 div.DatePicker div.pick-day ul {
 	display: flex;
 	list-style: none;
@@ -126,18 +135,24 @@ div.DatePicker div.pick-day ul.pick-d li {
 	height: 40px;
 	line-height: 40px;
 	user-select: none;
-	transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+  font-size: 1.4rem;
 }
-/* div.DatePicker div.pick-day ul.pick-d li.pick-sl::after{
+div.DatePicker div.pick-day ul.pick-d li::after{
 	content: '';
 	position: absolute;
 	top:0;
 	left: 0;
-	width: 100%;
+	width:100%;
 	height: 100%;
-	background-color: red;
-	border-radius: 50%;
-} */
+  border-radius: 50%;
+  z-index: -1;
+  transform: scale(0);
+  transition: all .2s ease-in-out;
+}
+div.DatePicker div.pick-day ul.pick-d li.pick-sl.current::after{
+  transform: scale(1.2);
+}
 div.DatePicker div.pick-day ul.pick-d li::before {
 	content: '';
 	position: absolute;
@@ -161,6 +176,34 @@ div.DatePicker div.pick-day ul.pick-d li.pick-afr {
 	transform: translateY(0);
 }
 div.DatePicker div.pick-day ul.pick-d li.pick-sl.current {
-	background-color: red;
-	border-radius: 50%;
+
+  font-size: 1.6rem;
+}
+div.DatePicker div.pick-day ul.pick-d li.pick-bfr,
+div.DatePicker div.pick-day ul.pick-d li.pick-afr{
+  pointer-events: none;
+}
+div.DatePicker div.pick-day ul.day-name{
+  pointer-events: none;
+  user-select: none;
+  font-size: 1.1rem;
+}
+
+div.DatePicker ul.pick.pick-m,
+div.DatePicker div.pick-day .day-name,
+div.DatePicker::before,
+div.DatePicker div.pick-day ul.pick-d li::after
+ {
+  background-color: #fd4741;
+}
+div.DatePicker .pick.pick-y.pick-jump li {
+  color:  #fd4741;
+}
+div.DatePicker div.pick-day ul.day-name,
+div.DatePicker div.pick-day ul.pick-d li.pick-sl.current,
+div.DatePicker ul.pick.pick-m{
+  color: #fff;
+}
+div.DatePicker .pick.pick-y:hover{
+  background-color: rgba(0, 0, 0, 0.02);
 }
