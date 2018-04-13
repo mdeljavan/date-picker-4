@@ -38,7 +38,6 @@ export const listMaker = (lists, current, prev, next) => {
     if (val.index - 1 === prev) {
       state = 'bfr';
        _class.splice(0, 1, 'pick-bfr');
-      console.log(_class)
     } else if (val.index - 1 === next) {
       state = 'next';
        _class.splice(0, 1, 'pick-afr');

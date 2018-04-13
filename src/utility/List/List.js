@@ -2,7 +2,6 @@ import React from 'react';
 const listShow = (props) => {
 	const list = props.list;
 	const lists = list.map((val, ind) => {
-		console.log(val)
 		if (val.state === 'bfr') {
 			return (
 				<li
