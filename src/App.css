@@ -10,7 +10,11 @@ div.DatePicker {
   border-radius: 10px;
   box-shadow: 0 0 32px 0 rgba(0,0,0,.1);
   position: relative;
-  overflow: hidden;
+	overflow: hidden;
+	transition: width 0.8s cubic-bezier(1, -0.55, 0.2, 1.37), opacity 0.2s ease, visibility 0.2s ease, margin 0.2s ease;
+}
+div.DatePicker.small{
+	width:150px;
 }
 div.DatePicker::before{
   content: '';
@@ -78,6 +82,7 @@ div.DatePicker .pick-arw {
 	cursor: pointer;
 	z-index: 10;
 	user-select: none;
+	font-size: 20px;
 }
 div.DatePicker .pick .pick-arw.pick-arw-s1.pick-arw-l,
 div.DatePicker .pick .pick-arw.pick-arw-s2.pick-arw-l {
@@ -88,7 +93,7 @@ div.DatePicker .pick .pick-arw.pick-arw-s2.pick-arw-r {
 	right: 0;
 }
 div.DatePicker .pick:hover .pick-arw {
-	opacity: 0.4;
+	opacity: 0.5;
 	transform: scale(.7);
 }
 div.DatePicker .pick .pick-arw.pick-arw-s1.pick-arw-r:hover,
@@ -208,4 +213,41 @@ div.DatePicker ul.pick.pick-m
 }
 div.DatePicker .pick.pick-y:hover{
   background-color: rgba(0, 0, 0, 0.02);
+}
+div.DatePicker div.toggleDatePicker{
+	position: relative;
+	padding: 1px;
+	width:25px;
+	font-size: 10px;
+	height: 25px;
+	margin: 5px;
+	background-color: rgb(100, 94, 94);
+	text-align: center;
+	transform-origin: bottom right;
+	transition: transform .3s ease-in-out;
+	cursor: pointer;
+}
+div.DatePicker div.toggleDatePicker .pick-i-r{
+	position: absolute;
+	transform: rotate(-45deg);
+	left: 64%;
+}
+div.DatePicker div.toggleDatePicker:hover{
+	transform: scale(1.2);
+}
+div.DatePicker div.toggleDatePicker .pick-i-l{
+	position: absolute;
+	top:42%;
+	transform: rotate(-50deg);
+}
+div.DatePicker div.toggleDatePicker::before{
+	content: '';
+	top:0;
+	right: 0;
+	transform-origin: top right;
+	transform:rotate(-45deg);
+	position: absolute;
+	width:141.42135623730950488016887242097%;
+	height: .2px;
+	background-color: red;
 }
