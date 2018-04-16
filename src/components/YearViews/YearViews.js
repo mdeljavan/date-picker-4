@@ -1,11 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   checkCurrentPrevNext,
   contanisValueInArray,
   uniqueItemInarray,
   listMaker
 } from "../../utility/utility";
-import JalaliDate from "./../../lib/JalaliDate";
 import ListShow from "../../utility/List/List";
 const yearViews = props => {
   const jumpedStep = 10;

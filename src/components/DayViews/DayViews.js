@@ -1,9 +1,7 @@
-import React, { Component } from "react";
-import JalaliDate from "./../../lib/JalaliDate";
-import ListShow from "../../utility/List/List";
-import { checkCurrentPrevNext } from "../../utility/utility";
-import DayInLargeView from "./DaysInLargeView/DayInLargeView";
-import DayInSmallView from "./DayInSmallView/DayInSmallView";
+import React from 'react';
+import JalaliDate from './../../lib/JalaliDate';
+import DayInLargeView from './DaysInLargeView/DayInLargeView';
+import DayInSmallView from './DayInSmallView/DayInSmallView';
 const DayViews = props => {
   const getCurrentFirstDayMonth = () => {
     return new JalaliDate(currentYear, currentMonth + 1, 1).getDay();
@@ -29,17 +27,17 @@ const DayViews = props => {
   const currentMonth = props.currentMonth;
   const currentDate = props.currentDate;
   const currentDay = currentYear ? getCurrentFirstDayMonth() : props.currentDay;
-  
+
   const dayNameMaker = () => {
-    const shortName = ["ش", "یک", "دو", "سه", "چهار", "پنج", "جمعه"];
+    const shortName = ['ش', 'یک', 'دو', 'سه', 'چهار', 'پنج', 'جمعه'];
     const fullName = [
-      "شنبه",
-      "یکشنبه",
-      "دوشنبه",
-      "سه شنبه",
-      "چهارشنبه",
-      "پنجشنبه",
-      "جمعه"
+      'شنبه',
+      'یکشنبه',
+      'دوشنبه',
+      'سه شنبه',
+      'چهارشنبه',
+      'پنجشنبه',
+      'جمعه'
     ];
     if (props.showLargeDate) {
       return shortName;
@@ -47,26 +45,56 @@ const DayViews = props => {
       return fullName;
     }
   };
-  const dayViewsLarge =(
+  const onDoubleClickDayView = event => {
+    if (props.showLargeDate) return;
+    if (event.target.tagName !== 'LI') return;
+    props.toggleDatePicker();
+  };
+  const dayViewsLarge = (
     <DayInLargeView
-    currentYear = {currentYear}
-    currentMonth ={currentMonth}
-    currentDate={currentDate}
-    currentDay={currentDay}
-    minYear = {props.minYear}
-    maxYear = {props.maxYear}
-    daysInMonth={(month)=>daysInMonth(month)}
-    getDay={(currentYear, prevMonth, day)=>getDay(currentYear, prevMonth, day)}
-    dayNameMaker={()=>dayNameMaker()}
-    onChangeDay={(currentYear, currentMonth, selectedDate)=>props.onChangeDay(currentYear, currentMonth, selectedDate)}
+      currentYear={currentYear}
+      currentMonth={currentMonth}
+      currentDate={currentDate}
+      currentDay={currentDay}
+      minYear={props.minYear}
+      maxYear={props.maxYear}
+      daysInMonth={month => daysInMonth(month)}
+      getDay={(currentYear, prevMonth, day) =>
+        getDay(currentYear, prevMonth, day)
+      }
+      dayNameMaker={() => dayNameMaker()}
+      onChangeDay={(currentYear, currentMonth, selectedDate) =>
+        props.onChangeDay(currentYear, currentMonth, selectedDate)
+      }
     />
   );
-  const dayViewsSmall=(
-    <DayInSmallView/>
+  const dayViewsSmall = (
+    <DayInSmallView
+      currentDate={currentDate}
+      currentYear={currentYear}
+      currentMonth={currentMonth}
+      getDay={getDay}
+      dayNameMaker={() => dayNameMaker()}
+      daysInMonth={month => daysInMonth(month)}
+      onChangeDay={(currentYear, currentMonth, selectedDate) =>
+        props.onChangeDay(currentYear, currentMonth, selectedDate)
+      }
+    />
   );
-  if (props.showLargeDate){
-    return dayViewsLarge;
-  }
-  return dayViewsSmall;
+  return (
+    <div className={props.showLargeDate ? 'pick-day' : 'pick-day-sm'}>
+      {props.showLargeDate ? (
+        <ul className="day-name">
+          {dayNameMaker().map((val, ind) => <li key={ind}>{val}</li>)}
+        </ul>
+      ) : null}
+      <ul
+        className={props.showLargeDate ? 'pick-d' : 'pick pick-d'}
+        onDoubleClick={onDoubleClickDayView}
+      >
+        {props.showLargeDate ? dayViewsLarge : dayViewsSmall}
+      </ul>
+    </div>
+  );
 };
 export default DayViews;

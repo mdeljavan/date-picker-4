@@ -1,11 +1,11 @@
-import React from "react";
-import { checkCurrentPrevNext } from "../../../utility/utility";
-import ListShow from "../../../utility/List/List";
+import React from 'react';
+import { checkCurrentPrevNext } from '../../../utility/utility';
+import ListShow from '../../../utility/List/List';
 const dayInLargeView = props => {
-    let currentYear = props.currentYear;
-    let currentMonth = props.currentMonth;
-    let currentDay = props.currentDay;
-    let currentDate = props.currentDate;
+  let currentYear = props.currentYear;
+  let currentMonth = props.currentMonth;
+  let currentDay = props.currentDay;
+  let currentDate = props.currentDate;
   const onClickBfrHandler = selectedDate => {
     if (currentMonth === 0) {
       currentYear--;
@@ -38,33 +38,32 @@ const dayInLargeView = props => {
   const makerDayList = () => {
     const dayInLastMonth = props.daysInMonth(currentMonth - 1);
     const dayInCurrentMonth = props.daysInMonth(currentMonth);
-    const dayInNextMonth = props.daysInMonth(currentMonth + 1);
     const listDay = [];
     for (let i = dayInLastMonth - currentDay + 1; i <= dayInLastMonth; i++) {
-      const _class = ["pick-bfr"];
+      const _class = ['pick-bfr'];
       if (props.getDay(currentYear, prevMonth, i) === 6) {
-        _class.push("jome");
+        _class.push('jome');
       }
       listDay.push({
-        state: "bfr",
-        key: "bfr" + i,
+        state: 'bfr',
+        key: 'bfr' + i,
         value: i,
         class: _class,
         onClick: () => onClickBfrHandler(i)
       });
     }
     for (let i = 1; i <= dayInCurrentMonth; i++) {
-      const _class = ["pick-sl"];
+      const _class = ['pick-sl'];
       if (i === currentDate) {
-        _class.push("current");
+        _class.push('current');
       }
       if (props.getDay(currentYear, currentMonth, i) === 6) {
-        _class.push("jome");
+        _class.push('jome');
       }
       listDay.push({
-        state: "current",
+        state: 'current',
         value: i,
-        key: "current" + i,
+        key: 'current' + i,
         class: _class,
         onClick: () => onClickCurrentHandler(i)
       });
@@ -72,13 +71,13 @@ const dayInLargeView = props => {
     const numberOfdayInList = listDay.length;
     for (let i = numberOfdayInList, counter = 0; i < 42; i++) {
       ++counter;
-      const _class = ["pick-afr"];
+      const _class = ['pick-afr'];
       if (props.getDay(currentYear, nextMonth, counter) === 6) {
-        _class.push("jome");
+        _class.push('jome');
       }
       listDay.push({
-        state: "next",
-        key: "afr" + counter,
+        state: 'next',
+        key: 'afr' + counter,
         value: counter,
         class: _class,
         onClick: () => onClickAfrHandler(counter)
@@ -86,17 +85,7 @@ const dayInLargeView = props => {
     }
     return listDay;
   };
-  const dayNames = props.dayNameMaker();
-  let dayViews = (
-    <div className="pick-day">
-      <ul className="day-name">
-        {dayNames.map((val, ind) => <li key={ind}>{val}</li>)}
-      </ul>
-      <ul className="pick-d">
-        <ListShow list={makerDayList()} />
-      </ul>
-    </div>
-  );
+  let dayViews = <ListShow list={makerDayList()} />;
   return dayViews;
 };
 export default dayInLargeView;
